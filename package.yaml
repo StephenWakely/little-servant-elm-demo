@@ -1,0 +1,95 @@
+name:                butler
+version:             0.1.0.0
+github:              "githubuser/butler"
+license:             BSD3
+author:              "Author name here"
+maintainer:          "example@example.com"
+copyright:           "2018 Author name here"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/githubuser/butler#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- text
+- servant-server
+- prelude-compat
+- aeson
+- aeson-compat
+- attoparsec
+- base-compat
+- bytestring
+- containers
+- directory
+- http-api-data
+- http-client
+- http-media
+- http-types
+- mtl
+- string-conversions
+- text
+- transformers
+- wai
+- warp
+- servant
+- servant-server
+- servant-client
+- servant-docs
+- lucid
+- servant-lucid
+- elm-export
+- cookie       >= 0.4.3   && < 0.5
+- js-jquery 
+- lucid        >= 2.9.9   && < 2.10
+- mtl-compat   >= 0.2.1   && < 0.3
+- random       >= 1.1     && < 1.2
+- time >= 1.4.2 && < 1.9
+
+library:
+  source-dirs: src
+  dependencies:
+  - 
+
+executables:
+  butler-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - butler
+    
+  code-generator:
+    main:               Main.hs
+    source-dirs:        generate
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - butler
+    - servant-elm
+    - servant-server
+
+tests:
+  butler-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - butler
