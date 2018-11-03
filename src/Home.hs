@@ -11,7 +11,6 @@ import Lucid                    (Html, body_, content_, doctypehtml_,
                                  rel_, script_, src_, title_)
 import Servant.HTML.Lucid       (HTML)
 
-type Home = Get '[HTML] (Html ())
 
 homePage :: Html ()
 homePage =
@@ -21,8 +20,8 @@ homePage =
       meta_ [ name_ "viewport"
             , content_ "width=device-width, initial-scale=1" ]
       link_ [ rel_ "stylesheet"
-             , href_ "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-             ]
+            , href_ "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+            ]
       script_ [src_ "assets/app.js" ] ("" :: String)
     body_ (script_ "var elmApp = Elm.Main.fullscreen()")
 

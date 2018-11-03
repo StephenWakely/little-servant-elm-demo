@@ -13,7 +13,7 @@
 module Lib
     ( someFunc
     , User
-    , UserAPI
+    , UserApi
     ) where
 
 import Prelude ()
@@ -23,18 +23,36 @@ import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant
 
-import Home (Home, homePage)
-import Users (User, UserAPI, users)
+import Control.Monad.IO.Class
 
-type Routes = Home
-              :<|> "api" :> UserAPI 
-              :<|> "assets" :> Raw
+import Home (homePage)
+import Users (User)
+import qualified Db
+import Routes
+
+import Debug.Trace
+
+-------------------------------------------------
+-- Handle the routes
 
 server :: Server Routes
 server = home :<|> userApi :<|> assets
   where home = return homePage
-        userApi = return users
         assets = serveDirectoryFileServer "frontend/dist"
+
+userApi :: Server UserApi
+userApi = getUsers :<|> postUsers
+  where
+    getUsers = trace "get users" $ do
+      users <- liftIO $ Db.getUsers
+      return users
+
+    postUsers user = trace "post user" $ do
+      liftIO $ Db.createUser user
+      return user
+
+
+-----------------------------------------------
 
 routes :: Proxy Routes
 routes = Proxy

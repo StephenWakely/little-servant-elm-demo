@@ -10,7 +10,7 @@ import           Elm         (Spec (Spec), specsToDir, toElmTypeSource,
 import           Servant.Elm (ElmOptions (..), defElmImports, defElmOptions,
                               generateElmForAPIWith, UrlPrefix (Static))
 
-import           Lib  (UserAPI, User)
+import           Lib  (UserApi, User)
 
 elmOpts :: ElmOptions
 elmOpts =
@@ -24,7 +24,7 @@ specs =
           : toElmTypeSource    (Proxy :: Proxy User)
           : toElmDecoderSource (Proxy :: Proxy User)
           : toElmEncoderSource (Proxy :: Proxy User)
-          : generateElmForAPIWith elmOpts  (Proxy :: Proxy UserAPI))
+          : generateElmForAPIWith elmOpts  (Proxy :: Proxy UserApi))
   ]
 
 main :: IO ()

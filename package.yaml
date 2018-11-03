@@ -58,7 +58,8 @@ dependencies:
 library:
   source-dirs: src
   dependencies:
-  - 
+  - sqlite-simple
+  - transformers
 
 executables:
   butler-exe:

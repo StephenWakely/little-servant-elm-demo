@@ -1,21 +1,30 @@
 
-src/Generated/Api.elm,188
+src/Generated/Api.elm,223
 module Generated.ApiGenerated.Api1,0
 type alias User =type10,158
 type alias UserUser10,158
-decodeUser =decodeUser17,266
-encodeUser x =encodeUser24,434
-getUsers =getUsers32,662
+decodeUser =decodeUser17,270
+encodeUser x =encodeUser24,442
+getUsers =getUsers32,678
+postUsers body =postUsers54,1158
 
-src/Main.elm,298
+src/Main.elm,640
 module MainMain1,0
-type alias Model =type7,139
-type alias ModelModel7,139
-type Msg =type10,186
-type MsgMsg10,186
-update msg model =update13,285
-fetchUsers =fetchUsers19,463
-init = ({ users =init25,555
-userTable users =userTable30,635
-view model =view45,1123
-main =main51,1292
+type alias Model =type8,172
+type alias ModelModel8,172
+type Msg =type13,244
+type MsgMsg13,244
+         | AddUserAddUser14,296
+         | ChangeUsernameChangeUsername15,340
+         | ChangeAgeChangeAge16,373
+         | ChangeEmailChangeEmail17,401
+         | SubmitUserSubmitUser18,431
+update msg model =update21,500
+fetchUsers =fetchUsers44,1547
+submitUser user =submitUser48,1639
+emptyUser = { username = "", age = 0, email =emptyUser52,1727
+init = ({ users =init55,1819
+userTable users =userTable62,1937
+newUserForm =newUserForm76,2422
+view model =view100,3192
+main =main108,3418
