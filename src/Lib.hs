@@ -26,7 +26,7 @@ import Servant
 import Control.Monad.IO.Class
 
 import Home (homePage)
-import Users (User)
+import Users (User, id)
 import qualified Db
 import Routes
 
@@ -48,8 +48,8 @@ userApi = getUsers :<|> postUsers :<|> deleteUser
       return users
 
     postUsers user = trace "post user" $ do
-      liftIO $ Db.createUser user
-      return user
+      i <- liftIO $ Db.createUser user
+      return $ user { Users.id = Just i }
 
     deleteUser id = trace "delete user" $ do
       liftIO $ Db.deleteUser id

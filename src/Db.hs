@@ -11,7 +11,6 @@ import Database.SQLite.Simple.FromRow
 
 import Users (User( User ), username, age, email)
 
-
 withConn :: String -> (Connection -> IO a) -> IO a
 withConn dbName action = do
   conn <- open dbName
@@ -26,11 +25,14 @@ instance FromRow User where
             <*> field
             <*> field
 
-createUser :: User -> IO ()
-createUser User{..} = do
-  conn <- open "db.db" 
-  execute conn "INSERT INTO USERS (username, age, email) values (?, ?, ?)" (username, age, email)
-  close conn
+  
+
+createUser :: User -> IO Int
+createUser User{..} = withConn "db.db" $
+  \conn -> do
+    execute conn "INSERT INTO USERS (username, age, email) values (?, ?, ?)" (username, age, email)
+    id <- lastInsertRowId conn
+    return $ fromIntegral id
 
 
 deleteUser :: Int -> IO ()
