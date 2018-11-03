@@ -41,7 +41,7 @@ server = home :<|> userApi :<|> assets
         assets = serveDirectoryFileServer "frontend/dist"
 
 userApi :: Server UserApi
-userApi = getUsers :<|> postUsers
+userApi = getUsers :<|> postUsers :<|> deleteUser
   where
     getUsers = trace "get users" $ do
       users <- liftIO $ Db.getUsers
@@ -50,6 +50,10 @@ userApi = getUsers :<|> postUsers
     postUsers user = trace "post user" $ do
       liftIO $ Db.createUser user
       return user
+
+    deleteUser id = trace "delete user" $ do
+      liftIO $ Db.deleteUser id
+      return "Groovy"
 
 
 -----------------------------------------------

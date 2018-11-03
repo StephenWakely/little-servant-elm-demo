@@ -15,7 +15,8 @@ import Data.Aeson.Types
 import GHC.Generics
 import Elm (ElmType)
 
-data User = User { username :: String
+data User = User { id :: Maybe Int
+                 , username :: String
                  , age :: Int
                  , email :: String }
   deriving (Eq, Show, Generic, ElmType)

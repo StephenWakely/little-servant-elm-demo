@@ -1,30 +1,34 @@
 
-src/Generated/Api.elm,223
+src/Generated/Api.elm,288
 module Generated.ApiGenerated.Api1,0
 type alias User =type10,158
 type alias UserUser10,158
-decodeUser =decodeUser17,270
-encodeUser x =encodeUser24,442
-getUsers =getUsers32,678
-postUsers body =postUsers54,1158
+decodeUser =decodeUser18,293
+encodeUser x =encodeUser26,502
+getUsers =getUsers35,829
+postUsers body =postUsers57,1309
+deleteUsersByUserId capture_userId =deleteUsersByUserId79,1817
 
-src/Main.elm,640
+src/Main.elm,732
 module MainMain1,0
 type alias Model =type8,172
 type alias ModelModel8,172
 type Msg =type13,244
 type MsgMsg13,244
          | AddUserAddUser14,296
-         | ChangeUsernameChangeUsername15,340
-         | ChangeAgeChangeAge16,373
-         | ChangeEmailChangeEmail17,401
-         | SubmitUserSubmitUser18,431
-update msg model =update21,500
-fetchUsers =fetchUsers44,1547
-submitUser user =submitUser48,1639
-emptyUser = { username = "", age = 0, email =emptyUser52,1727
-init = ({ users =init55,1819
-userTable users =userTable62,1937
-newUserForm =newUserForm76,2422
-view model =view100,3192
-main =main108,3418
+         | DeletedUserDeletedUser15,340
+         | ChangeUsernameChangeUsername16,394
+         | ChangeAgeChangeAge17,427
+         | ChangeEmailChangeEmail18,455
+         | SubmitUserSubmitUser19,485
+         | DeleteUserDeleteUser20,507
+update msg model =update23,580
+fetchUsers =fetchUsers57,2051
+submitUser user =submitUser61,2143
+deleteUser id  =deleteUser65,2261
+emptyUser = { id =emptyUser69,2366
+init = ({ users =init75,2511
+userTable users =userTable82,2629
+newUserForm =newUserForm105,3603
+view model =view129,4373
+main =main137,4599

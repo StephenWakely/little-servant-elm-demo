@@ -8,7 +8,8 @@ import String
 
 
 type alias User =
-    { username : String
+    { id : Maybe (Int)
+    , username : String
     , age : Int
     , email : String
     }
@@ -16,6 +17,7 @@ type alias User =
 decodeUser : Decoder User
 decodeUser =
     decode User
+        |> required "id" (maybe int)
         |> required "username" string
         |> required "age" int
         |> required "email" string
@@ -23,7 +25,8 @@ decodeUser =
 encodeUser : User -> Json.Encode.Value
 encodeUser x =
     Json.Encode.object
-        [ ( "username", Json.Encode.string x.username )
+        [ ( "id", (Maybe.withDefault Json.Encode.null << Maybe.map Json.Encode.int) x.id )
+        , ( "username", Json.Encode.string x.username )
         , ( "age", Json.Encode.int x.age )
         , ( "email", Json.Encode.string x.email )
         ]
@@ -66,6 +69,29 @@ postUsers body =
             Http.jsonBody (encodeUser body)
         , expect =
             Http.expectJson decodeUser
+        , timeout =
+            Nothing
+        , withCredentials =
+            False
+        }
+
+deleteUsersByUserId : Int -> Http.Request (String)
+deleteUsersByUserId capture_userId =
+    Http.request
+        { method =
+            "DELETE"
+        , headers =
+            []
+        , url =
+            String.join "/"
+                [ "http://localhost:8000/api"
+                , "users"
+                , capture_userId |> toString |> Http.encodeUri
+                ]
+        , body =
+            Http.emptyBody
+        , expect =
+            Http.expectJson string
         , timeout =
             Nothing
         , withCredentials =

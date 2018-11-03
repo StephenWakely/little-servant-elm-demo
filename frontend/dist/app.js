@@ -9127,37 +9127,78 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
+var _user$project$Generated_Api$deleteUsersByUserId = function (capture_userId) {
+	return _elm_lang$http$Http$request(
+		{
+			method: 'DELETE',
+			headers: {ctor: '[]'},
+			url: A2(
+				_elm_lang$core$String$join,
+				'/',
+				{
+					ctor: '::',
+					_0: 'http://localhost:8000/api',
+					_1: {
+						ctor: '::',
+						_0: 'users',
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$http$Http$encodeUri(
+								_elm_lang$core$Basics$toString(capture_userId)),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			body: _elm_lang$http$Http$emptyBody,
+			expect: _elm_lang$http$Http$expectJson(_elm_lang$core$Json_Decode$string),
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false
+		});
+};
 var _user$project$Generated_Api$encodeUser = function (x) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'username',
-				_1: _elm_lang$core$Json_Encode$string(x.username)
+				_0: 'id',
+				_1: function (_p0) {
+					return A2(
+						_elm_lang$core$Maybe$withDefault,
+						_elm_lang$core$Json_Encode$null,
+						A2(_elm_lang$core$Maybe$map, _elm_lang$core$Json_Encode$int, _p0));
+				}(x.id)
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'age',
-					_1: _elm_lang$core$Json_Encode$int(x.age)
+					_0: 'username',
+					_1: _elm_lang$core$Json_Encode$string(x.username)
 				},
 				_1: {
 					ctor: '::',
 					_0: {
 						ctor: '_Tuple2',
-						_0: 'email',
-						_1: _elm_lang$core$Json_Encode$string(x.email)
+						_0: 'age',
+						_1: _elm_lang$core$Json_Encode$int(x.age)
 					},
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'email',
+							_1: _elm_lang$core$Json_Encode$string(x.email)
+						},
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		});
 };
-var _user$project$Generated_Api$User = F3(
-	function (a, b, c) {
-		return {username: a, age: b, email: c};
+var _user$project$Generated_Api$User = F4(
+	function (a, b, c, d) {
+		return {id: a, username: b, age: c, email: d};
 	});
 var _user$project$Generated_Api$decodeUser = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
@@ -9171,7 +9212,11 @@ var _user$project$Generated_Api$decodeUser = A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 			'username',
 			_elm_lang$core$Json_Decode$string,
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Generated_Api$User))));
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'id',
+				_elm_lang$core$Json_Decode$maybe(_elm_lang$core$Json_Decode$int),
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Generated_Api$User)))));
 var _user$project$Generated_Api$getUsers = _elm_lang$http$Http$request(
 	{
 		method: 'GET',
@@ -9219,6 +9264,14 @@ var _user$project$Generated_Api$postUsers = function (body) {
 		});
 };
 
+var _user$project$Main$emptyUser = {id: _elm_lang$core$Maybe$Nothing, username: '', age: 0, email: ''};
+var _user$project$Main$Model = F2(
+	function (a, b) {
+		return {users: a, newUser: b};
+	});
+var _user$project$Main$DeleteUser = function (a) {
+	return {ctor: 'DeleteUser', _0: a};
+};
 var _user$project$Main$userTable = function (users) {
 	var userRow = function (user) {
 		return A2(
@@ -9255,7 +9308,41 @@ var _user$project$Main$userTable = function (users) {
 								_0: _elm_lang$html$Html$text(user.email),
 								_1: {ctor: '[]'}
 							}),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$td,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: function () {
+										var _p0 = user.id;
+										if (_p0.ctor === 'Nothing') {
+											return _elm_lang$html$Html$text('');
+										} else {
+											return A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('btn btn-danger'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(
+															_user$project$Main$DeleteUser(_p0._0)),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Delete'),
+													_1: {ctor: '[]'}
+												});
+										}
+									}(),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			});
@@ -9293,7 +9380,14 @@ var _user$project$Main$userTable = function (users) {
 							_0: _elm_lang$html$Html$text('Email'),
 							_1: {ctor: '[]'}
 						}),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$th,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		});
@@ -9310,11 +9404,6 @@ var _user$project$Main$userTable = function (users) {
 			_1: A2(_elm_lang$core$List$map, userRow, users)
 		});
 };
-var _user$project$Main$emptyUser = {username: '', age: 0, email: ''};
-var _user$project$Main$Model = F2(
-	function (a, b) {
-		return {users: a, newUser: b};
-	});
 var _user$project$Main$SubmitUser = {ctor: 'SubmitUser'};
 var _user$project$Main$ChangeEmail = function (a) {
 	return {ctor: 'ChangeEmail', _0: a};
@@ -9503,6 +9592,16 @@ var _user$project$Main$view = function (model) {
 			}
 		});
 };
+var _user$project$Main$DeletedUser = F2(
+	function (a, b) {
+		return {ctor: 'DeletedUser', _0: a, _1: b};
+	});
+var _user$project$Main$deleteUser = function (id) {
+	return A2(
+		_elm_lang$http$Http$send,
+		_user$project$Main$DeletedUser(id),
+		_user$project$Generated_Api$deleteUsersByUserId(id));
+};
 var _user$project$Main$AddUser = function (a) {
 	return {ctor: 'AddUser', _0: a};
 };
@@ -9514,15 +9613,15 @@ var _user$project$Main$submitUser = function (user) {
 };
 var _user$project$Main$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
 			case 'SetUsers':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							users: A2(_elm_lang$core$Result$withDefault, model.users, _p0._0)
+							users: A2(_elm_lang$core$Result$withDefault, model.users, _p1._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -9533,9 +9632,36 @@ var _user$project$Main$update = F2(
 					_1: _user$project$Main$submitUser(model.newUser)
 				};
 			case 'AddUser':
-				var _p1 = _p0._0;
-				if (_p1.ctor === 'Ok') {
-					var users = {ctor: '::', _0: _p1._0, _1: model.users};
+				var _p2 = _p1._0;
+				if (_p2.ctor === 'Ok') {
+					var users = {ctor: '::', _0: _p2._0, _1: model.users};
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{users: users}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'DeleteUser':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _user$project$Main$deleteUser(_p1._0)
+				};
+			case 'DeletedUser':
+				var _p3 = _p1._1;
+				if (_p3.ctor === 'Ok') {
+					var users = A2(
+						_elm_lang$core$List$filter,
+						function (u) {
+							return !_elm_lang$core$Native_Utils.eq(
+								u.id,
+								_elm_lang$core$Maybe$Just(_p1._0));
+						},
+						model.users);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -9555,7 +9681,7 @@ var _user$project$Main$update = F2(
 						{
 							newUser: _elm_lang$core$Native_Utils.update(
 								$new,
-								{username: _p0._0})
+								{username: _p1._0})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -9573,7 +9699,7 @@ var _user$project$Main$update = F2(
 										_elm_lang$core$Maybe$withDefault,
 										0,
 										_elm_lang$core$Result$toMaybe(
-											_elm_lang$core$String$toInt(_p0._0)))
+											_elm_lang$core$String$toInt(_p1._0)))
 								})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
@@ -9587,7 +9713,7 @@ var _user$project$Main$update = F2(
 						{
 							newUser: _elm_lang$core$Native_Utils.update(
 								$new,
-								{email: _p0._0})
+								{email: _p1._0})
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -9610,7 +9736,7 @@ var _user$project$Main$main = _elm_lang$html$Html$program(
 		init: _user$project$Main$init,
 		view: _user$project$Main$view,
 		update: _user$project$Main$update,
-		subscriptions: function (_p2) {
+		subscriptions: function (_p4) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();

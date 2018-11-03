@@ -14,6 +14,7 @@ type Home = Get '[HTML] (Html ())
 
 type UserApi = "users" :> Get '[JSON] [User]
                :<|> ReqBody '[JSON] User :> "users" :> Post '[JSON] User
+               :<|> "users" :> Capture "userId" Int :> Delete '[JSON] String
 
 type Routes = Home
               :<|> "api" :> UserApi 

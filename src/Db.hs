@@ -19,10 +19,10 @@ withConn dbName action = do
   close conn
   return res
 
-
 instance FromRow User where
   fromRow = User
             <$> field
+            <*> field
             <*> field
             <*> field
 
@@ -32,7 +32,14 @@ createUser User{..} = do
   execute conn "INSERT INTO USERS (username, age, email) values (?, ?, ?)" (username, age, email)
   close conn
 
+
+deleteUser :: Int -> IO ()
+deleteUser id = do
+  conn <- open "db.db"
+  execute conn "DELETE FROM USERS where id = (?)" (Only id)
+  close conn
+
 getUsers :: IO [User]
 getUsers = withConn "db.db" $
   \conn -> do
-    query_ conn "SELECT username, age, email FROM users;" :: IO [User]
+    query_ conn "SELECT id, username, age, email FROM users;" :: IO [User]
