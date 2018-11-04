@@ -22,8 +22,6 @@ description:         Please see the README on GitHub at <https://github.com/gith
 dependencies:
 - base >= 4.7 && < 5
 - text
-- servant-server
-- prelude-compat
 - aeson
 - aeson-compat
 - attoparsec
@@ -49,11 +47,8 @@ dependencies:
 - servant-lucid
 - elm-export
 - cookie       >= 0.4.3   && < 0.5
-- js-jquery 
 - lucid        >= 2.9.9   && < 2.10
 - mtl-compat   >= 0.2.1   && < 0.3
-- random       >= 1.1     && < 1.2
-- time >= 1.4.2 && < 1.9
 
 library:
   source-dirs: src
