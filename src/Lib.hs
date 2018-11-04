@@ -1,14 +1,6 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RankNTypes #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE DeriveAnyClass #-}
 
 module Lib
     ( someFunc
@@ -16,8 +8,6 @@ module Lib
     , UserApi
     ) where
 
-import Prelude ()
-import Prelude.Compat
 
 import Network.Wai
 import Network.Wai.Handler.Warp
@@ -43,20 +33,26 @@ server = home :<|> userApi :<|> assets
 userApi :: Server UserApi
 userApi = getUsers :<|> postUsers :<|> deleteUser
   where
-    getUsers = trace "get users" $ do
-      users <- liftIO $ Db.getUsers
-      return users
+    getUsers :: Handler [User]
+    getUsers = trace "get users" $ 
+               liftIO $ Db.getUsers
 
-    postUsers user = trace "post user" $ do
-      i <- liftIO $ Db.createUser user
-      return $ user { Users.id = Just i }
+    postUsers :: User -> Handler User
+    postUsers user = trace "post user" $
+      -- Return the user with the new id
+      setId <$> (liftIO . Db.createUser) user
+      where
+        setId i = user { Users.id = Just i }
 
-    deleteUser id = trace "delete user" $ do
-      liftIO $ Db.deleteUser id
-      return "Groovy"
+    deleteUser :: Int -> Handler String
+    deleteUser id = trace "delete user" $
+      -- Always return "Groovy" after deleting
+      (const "Groovy") <$> 
+      (liftIO $ Db.deleteUser id)
 
 
 -----------------------------------------------
+-- Set stuff up
 
 routes :: Proxy Routes
 routes = Proxy
