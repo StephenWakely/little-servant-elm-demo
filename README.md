@@ -1,4 +1,5 @@
 # little-servant-elm-demo
+
 A little project to demonstrate using Servant with Elm
 =======
 
@@ -20,3 +21,13 @@ The code to generate the Elm code is found in generate/Main.hs.
 This creates a seperate executable that uses the type definitions found in src/ to generate the Elm types. It places the generated code in frontend/src/Generated.
 
 
+## Building
+
+To build and run :
+
+```
+> stack build
+> stack exec code-generator
+> (cd frontend && elm make src/Main.elm --output dist/app.js) 
+> stack exec butler-exe
+```
